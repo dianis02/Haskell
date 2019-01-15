@@ -34,8 +34,6 @@ equivalencia(Neg f) = negacion f
 equivalencia(a :&: b) = a :&: b
 equivalencia(a :|: b) = a:|: b
 equivalencia(a :=>: b) = (negacion a :|: b)
---equivalencia (a :<=>: b) = (negacion a :|: b) :&: (negacion b :|: a)
---equivalencia(a :=>: b) = negacion(a :&: negacion(b))
 equivalencia(a :<=>: b) = equivalencia (a :=>:b) :&: equivalencia (b :=>:a) 
 
 fnn:: Formula -> Formula
@@ -85,11 +83,8 @@ fnc (x :=>: y)=  fnc(fnn(x :=>:y))
 fnc (x :<=>: y) =  fnc(fnn(x:<=>: y))
 
 distr:: Formula -> Formula -> Formula
---distr (x :&: y) z = (x :|: z) :&: (y :|: z) 
---distr z (x :&: y) = (x :|: z) :&: (y :|: z)
 distr (x :&: y) z = (distr x z :&: distr y z )
 distr ((x :&: y) :|: (z :&: w)) p =  distr((distr (x:&:y) z):&:(distr (x:&:y) w)) p
----caso la neta bien chacalon pero funciona :o 
 distr z (x :&: y) = (distr x z :&: distr y z)
 distr x y = fnn(x :|: y)
 
